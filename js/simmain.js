@@ -1,7 +1,5 @@
-
  
-
-program.init = function(canv){
+circ = function(canv){
   var canvas = document.getElementById("canv");
   var ctx = canvas.getContext("2d");
 
