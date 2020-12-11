@@ -12,8 +12,8 @@
   //ctx.fillStyle = "#FF0000";
 //}
 
-(function(){
-    var canvas = document.getElementById("snow");
+(function(canv){
+    var canvas = document.getElementById("canv");
     var ctx = canvas.getContext("2d");
     var flakeArray = [];
 
