@@ -1,5 +1,5 @@
  
-circ = function(canv){
+ function circ(){
   var canvas = document.getElementById("canv");
   var ctx = canvas.getContext("2d");
 
