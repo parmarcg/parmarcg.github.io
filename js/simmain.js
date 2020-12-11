@@ -12,7 +12,7 @@
   //ctx.fillStyle = "#FF0000";
 //}
 
-(function(canv){
+program.init = function(canv){
     var canvas = document.getElementById("canv");
     var ctx = canvas.getContext("2d");
     var flakeArray = [];
