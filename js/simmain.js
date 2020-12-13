@@ -1,16 +1,32 @@
- 
- function circ(){
+/*
+
+var canvas = document.getElementById("canv");
+var ctx = canvas.getContext("2d");
+ctx.beginPath();
+ctx.arc(100, 75, 50, 0, 2 * Math.PI);
+ctx.stroke();
+
+*/
+
+function circ(){
+
   var canvas = document.getElementById("canv");
   var ctx = canvas.getContext("2d");
-
   ctx.beginPath();
-  ctx.arc(500, 500, 150, 0, 2 * Math.PI);
-  ctx.lineWidth = 10;
+  ctx.arc(100, 75, 50, 0, 2 * Math.PI);
   ctx.stroke();
-  ctx.fillStyle = "#FF0000";
+  
+  var ar = canvas.getContext("2d")
+  ar.beginPath();
+  ar.arc(100, 100, 150, 0, 2 * Math.PI);
+  ar.lineWidth = 10;
+  ar.stroke();
+  ar.fillStyle = "#FF0000";
 }
+circ()
+
 /*
-(function(){
+function snow(){
     var canvas = document.getElementById("snow");
     var ctx = canvas.getContext("2d");
     var flakeArray = [];
@@ -65,5 +81,7 @@
             flakeArray[b].y > canvas.height ? flakeArray.splice(b, 1) : flakeArray[b].update()
         }
     }, 16);
-})();
+};
+
+
 */
