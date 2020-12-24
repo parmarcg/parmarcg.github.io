@@ -1,13 +1,3 @@
-function docReady(fn) {
-    // see if DOM is already available
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-        // call on next available tick
-        setTimeout(fn, 1);
-    } else {
-        document.addEventListener("DOMContentLoaded", fn);
-    }
-}    
-
 /*
 
 var canvas = document.getElementById("canv");
@@ -17,24 +7,50 @@ ctx.arc(100, 75, 50, 0, 2 * Math.PI);
 ctx.stroke();
 
 */
+var arx = 100;
+var ary = 100;
+moveCirc()
+
+function moveCirc() {
+  arx = arx + 1;
+  if ( arx < 200) {
+    circ(); 
+    window.setTimeout(moveCirc, 1000/60);
+  }
+  else { back()};
+}
+
+function back(){
+  arx = arx - 1;
+  if ( arx > 0) {
+    circ();
+    window.setTimeout(back, 1000/60);
+  }
+  else {moveCirc()};
+}
 
 function circ(){
 
   var canvas = document.getElementById("canv");
+/*
   var ctx = canvas.getContext("2d");
   ctx.beginPath();
+
   ctx.arc(100, 75, 50, 0, 2 * Math.PI);
   ctx.stroke();
-  
+*/
+ 
   var ar = canvas.getContext("2d")
+  ar.clearRect(0, 0, canvas.width, canvas.height);
   ar.beginPath();
-  ar.arc(100, 100, 150, 0, 2 * Math.PI);
-  ar.lineWidth = 10;
+  ar.arc(arx, ary, 10, 0, 2 * Math.PI);
+  ar.lineWidth = 5;
   ar.stroke();
   ar.fillStyle = "#FF0000";
+ 
 }
 
-docReady(circ());
+var body = "new"
 
 /*
 function snow(){
