@@ -1,14 +1,40 @@
-/*
 
-var canvas = document.getElementById("canv");
-var ctx = canvas.getContext("2d");
-ctx.beginPath();
-ctx.arc(100, 75, 50, 0, 2 * Math.PI);
-ctx.stroke();
 
-*/
+var dpi = window.devicePixelRatio || 1;
 var arx = 100;
 var ary = 100;
+var canvas = document.getElementById("canv");
+var ar = canvas.getContext("2d")
+
+
+function resizeHandler(){
+  canvas.height = canvas.offsetHeight;
+  canvas.width = canvas.offsetWidth;
+    }
+
+var publicApi = {};
+publicApi.initialize = function(p_canvas){
+  canvas = p_canvas;
+}
+
+publicApi.autoResize = function(){
+  window.onresize = function(){
+    resizeHandler();
+  };
+    resizeHandler();
+}
+
+
+
+function ppi() {
+  var style_height = +getComputedStyle(canvas).getPropertyValue("hi").slice(0, -2);
+  var style_width = +getComputedStyle(canvas).getPropertyValue("wi").slice(0, -2);
+
+  canvas.setAttribute('hi', style_height * dpi);
+  canvas.setAttribute('wi', style_width * dpi); 
+}
+ppi()
+
 moveCirc()
 
 function moveCirc() {
@@ -30,17 +56,8 @@ function back(){
 }
 
 function circ(){
+  
 
-  var canvas = document.getElementById("canv");
-/*
-  var ctx = canvas.getContext("2d");
-  ctx.beginPath();
-
-  ctx.arc(100, 75, 50, 0, 2 * Math.PI);
-  ctx.stroke();
-*/
- 
-  var ar = canvas.getContext("2d")
   ar.clearRect(0, 0, canvas.width, canvas.height);
   ar.beginPath();
   ar.arc(arx, ary, 10, 0, 2 * Math.PI);
@@ -52,63 +69,3 @@ function circ(){
 
 var body = "new"
 
-/*
-function snow(){
-    var canvas = document.getElementById("snow");
-    var ctx = canvas.getContext("2d");
-    var flakeArray = [];
-
-    canvas.style.pointerEvents = "none";
-    canvas.style.position = "fixed";
-    canvas.style.top = 0;
-    canvas.style.left = 0;
-    canvas.style.width = "100vw";
-    canvas.style.height = "100vh";
-    canvas.style.zIndex = 1;
-    canvas.style.userSelect = "none";
-
-    function canvasResize(){
-        canvas.height = canvas.offsetHeight;
-        canvas.width = canvas.offsetWidth;
-    }
-    canvasResize();
-
-    window.onresize = function() {
-        canvasResize();
-    };
-
-    var MyMath = Math;
-
-    setInterval(function() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-
-        var random = MyMath.random();
-        var distance = .05 + .95 * random;
-
-        flake = {};
-        flake.x = 1.5 * canvas.width * MyMath.random() - .5 * canvas.width;
-        flake.y = -9;
-        flake.velX = 2 * distance * (MyMath.random() / 2 + .5);
-        flake.velY = (4 + 2 * MyMath.random()) * distance;
-        flake.radius = MyMath.pow(5 * random, 2) / 5;
-        flake.update = function() {
-            var t = this;
-            t.x += t.velX;
-            t.y += t.velY;
-            ctx.beginPath();
-            ctx.arc(t.x, t.y, t.radius, 0, 2 * MyMath.PI, !1);
-            ctx.fillStyle = "#FFF";
-            ctx.fill()
-        };
-
-        flakeArray.push(flake);
-
-        for (b = 0; b < flakeArray.length; b++) {
-            flakeArray[b].y > canvas.height ? flakeArray.splice(b, 1) : flakeArray[b].update()
-        }
-    }, 16);
-};
-
-
-*/
