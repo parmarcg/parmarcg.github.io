@@ -12,7 +12,6 @@ function resizeHandler(){
   canvas.height = canvas.offsetHeight;
   canvas.width = canvas.offsetWidth;
     }
-
 var canvashandler = {};
 //sets up autoresizing
 canvashandler.initialize = function(p_canvas){
@@ -21,6 +20,7 @@ canvashandler.initialize = function(p_canvas){
 canvashandler.autoResize = function(){
 
   window.onresize = function(){
+	  //When a resize is detected fun function
     resizeHandler();
   };
     resizeHandler();
