@@ -36,23 +36,32 @@ function recursiveCirc(){
 	  
 function generate(){
     var name = "Object " + clicked;
-	list.push([clicked,0,name]);
-	document.getElementById("createbody").innerHTML = "add to " + list[clicked][0];
-    draw(clicked);
-    clicked = clicked + 1;
-	
+	list[clicked] = clicked;
+	document.getElementById("createbody").innerHTML = "add to " + list[clicked];
+	var objhelper = clicked;
+    draw(objhelper);
+	console.log(list);
+
+	clicked = clicked + 1;
 }; 
 
-function draw(id){
-  list[id, 1] = list[id, 1] + 1;
-  ar.clearRect(0, 0, canvas.width, canvas.height);
-  ar.beginPath();
-  ar.arc(list[id,1], ary, 100, 0, 2 * Math.PI);
-  ar.lineWidth = 5;
-  ar.stroke();
-  ar.fillStyle = "ffffff";
-  window.setTimeout(draw, 1000/60);
-};
+function draw(objhelper){	
+  var constant = objhelper
+  if (objhelper >= 0) {
+	list[objhelper]= list[objhelper] + 1;
+    ar.beginPath();
+    ar.arc(list[objhelper], ary, 100, 0, 2 * Math.PI);
+    ar.lineWidth = 5;
+    ar.stroke();
+    ar.fillStyle = "ffffff";
+    objhelper = objhelper - 1;
+    window.setTimeout(draw,1000/60, objhelper);
+  }
+  else{ar.clearRect(0, 0, canvas.width, canvas.height)}
+  
+  objhelper = constant;
+  window.setTimeout(draw, 1000/60, objhelper);
+  };
 
 
 
