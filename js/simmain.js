@@ -4,7 +4,7 @@ var ary = 50;
 var canvas = document.getElementById("canv");
 var ar = canvas.getContext("2d");
 var clicked = 0;
-var list = [];
+var circles = [];
 
 
 function resizeHandler(){
@@ -35,33 +35,26 @@ function recursiveCirc(){
   }, 1000/30);}
 	  
 function generate(){
-    var name = "Object " + clicked;
-	list[clicked] = clicked;
-	document.getElementById("createbody").innerHTML = "add to " + list[clicked];
-	var objhelper = clicked;
-    draw(objhelper);
-	console.log(list);
-
+  circles.push(0)
+	document.getElementById("createbody").innerHTML = "add to " + clicked;
 	clicked = clicked + 1;
 }; 
 
-function draw(objhelper){	
-  var constant = objhelper
-  if (objhelper >= 0) {
-	list[objhelper]= list[objhelper] + 1;
-    ar.beginPath();
-    ar.arc(list[objhelper], ary, 100, 0, 2 * Math.PI);
-    ar.lineWidth = 5;
-    ar.stroke();
-    ar.fillStyle = "ffffff";
-    objhelper = objhelper - 1;
-    window.setTimeout(draw,1000/60, objhelper);
-  }
-  else{ar.clearRect(0, 0, canvas.width, canvas.height)}
-  
-  objhelper = constant;
-  window.setTimeout(draw, 1000/60, objhelper);
-  };
+function draw(){	
+    console.log("Draw");
+    ar.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < circles.length; i++) {
+      circles[i] += 1;
+      ar.beginPath();
+      ar.arc(circles[i], ary, 100, 0, 2 * Math.PI);
+      ar.lineWidth = 5;
+      ar.stroke();
+      ar.fillStyle = "ffffff";
+    }
+};
+
+window.setInterval(function(){ draw(); }, 1000/60);
+
 
 
 
