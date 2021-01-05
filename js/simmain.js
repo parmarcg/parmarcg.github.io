@@ -1,6 +1,6 @@
 var dpi = window.devicePixelRatio || 1;
 var arx = 50;
-var ary = 50;
+var ary = 500;
 var canvas = document.getElementById("canv");
 var ar = canvas.getContext("2d");
 var clicked = 0;
@@ -44,7 +44,7 @@ function draw(){
     console.log("Draw");
     ar.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < circles.length; i++) {
-      circles[i] += 1;
+      circles[i] += 5;
       ar.beginPath();
       ar.arc(circles[i], ary, 100, 0, 2 * Math.PI);
       ar.lineWidth = 5;
