@@ -1,6 +1,4 @@
 var dpi = window.devicePixelRatio || 1;
-var arx = 50;
-var ary = 50;
 var canvas = document.getElementById("canv");
 var ar = canvas.getContext("2d");
 var clicked = 0;
@@ -35,7 +33,14 @@ function recursiveCirc(){
   }, 1000/30);}
 	  
 function generate(){
-    circles.push([0])
+    var arx = document.getElementById("arx");
+	var ary = document.getElementById("ary");
+	var mas = document.getElementById("mass");
+	var xval = parseInt(arx.value);
+	var yval = parseInt(ary.value);
+	var mass = parseInt(mas.value);
+	
+    circles.push([xval, yval, mass])
     //starting x value of objects, creating a 2d array entry for each object
 	document.getElementById("createbody").innerHTML = "add to " + clicked;
 	//changes the html to reflect how many objects have been created
@@ -46,13 +51,14 @@ function draw(){
     console.log("Draw");
     ar.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < circles.length; i++) {
-      circles[i][0] += 5;
+      circles[i][0] += 1;
+	  circles[i][1] += 1;
       ar.beginPath();
-      ar.arc(circles[i][0], ary, 100, 0, 2 * Math.PI);
+      ar.arc(circles[i][0], circles[i][1], circles[i][2], 0, 2 * Math.PI);
       ar.lineWidth = 5;
       ar.stroke();
       ar.fillStyle = "ffffff";
-    }
+    } 
 };
 
 window.setInterval(function(){ draw(); }, 1000/60);
