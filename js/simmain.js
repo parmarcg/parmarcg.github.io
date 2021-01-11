@@ -37,13 +37,15 @@ function generate(){
 	var ary = document.getElementById("ary");
 	var volume = document.getElementById("volume");
 	var den = document.getElementById("density");
-	
-	var xval = parseInt(arx.value);
-	var yval = parseInt(ary.value);
+    xval = arx.value  /  100;
+    yval = ary.value  /  100;
+
+	var xval = (xval * canvas.width);
+	var yval = (yval * canvas.height);
 	var vol = parseInt(volume.value);
 	var dens = parseInt(den.value);
 	
-    circles.push([xval, yval, vol, dens])
+    circles.push([xval, yval, vol, dens]);
     //starting x value of objects, creating a 2d array entry for each object
 	document.getElementById("createbody").innerHTML = "add to " + clicked;
 	//changes the html to reflect how many objects have been created
