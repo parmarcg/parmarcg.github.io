@@ -1,6 +1,6 @@
 var dpi = window.devicePixelRatio || 1;
 var canvas = document.getElementById("canv");
-var ar = canvas.getContext("2d");
+var ctx = canvas.getContext("2d");
 var clicked = 0;
 var circles = [];
 
@@ -35,12 +35,15 @@ function recursiveCirc(){
 function generate(){
     var arx = document.getElementById("arx");
 	var ary = document.getElementById("ary");
-	var mas = document.getElementById("mass");
+	var volume = document.getElementById("volume");
+	var den = document.getElementById("density");
+	
 	var xval = parseInt(arx.value);
 	var yval = parseInt(ary.value);
-	var mass = parseInt(mas.value);
+	var vol = parseInt(volume.value);
+	var dens = parseInt(den.value);
 	
-    circles.push([xval, yval, mass])
+    circles.push([xval, yval, vol, dens])
     //starting x value of objects, creating a 2d array entry for each object
 	document.getElementById("createbody").innerHTML = "add to " + clicked;
 	//changes the html to reflect how many objects have been created
@@ -49,15 +52,16 @@ function generate(){
 
 function draw(){	
     console.log("Draw");
-    ar.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < circles.length; i++) {
       circles[i][0] += 1;
 	  circles[i][1] += 1;
-      ar.beginPath();
-      ar.arc(circles[i][0], circles[i][1], circles[i][2], 0, 2 * Math.PI);
-      ar.lineWidth = 5;
-      ar.stroke();
-      ar.fillStyle = "ffffff";
+      ctx.beginPath();
+      ctx.arc(circles[i][0], circles[i][1], circles[i][2], 0, 2 * Math.PI);
+      ctx.lineWidth = circles[i][3];
+      ctx.strokeStyle = "ffffff";
+      ctx.fill();
+      ctx.stroke();
     } 
 };
 
@@ -97,12 +101,12 @@ function spin(){
 function circ(){
   
   
-  ar.clearRect(0, 0, canvas.width, canvas.height);
-  ar.beginPath();
-  ar.arc(arx, ary, 10, 0, 2 * Math.PI);
-  ar.lineWidth = 5;
-  ar.stroke();
-  ar.fillStyle = "ffffff";
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.beginPath();
+  ctx.arc(arx, ary, 10, 0, 2 * Math.PI);
+  ctx.lineWidth = 5;
+  ctx.stroke();
+  ctx.fillStyle = "ffffff";
  
 }
 */
