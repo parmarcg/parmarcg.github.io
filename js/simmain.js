@@ -1,9 +1,16 @@
-var dpi = window.devicePixelRatio || 1;
-var canvas = document.getElementById("canv");
-var ctx = canvas.getContext("2d");
-var clicked = 0;
-var circles = [];
+//var dpi = window.devicePixelRatio || 1;
 
+// get canvas element from HTML
+var canvas = document.getElementById("canv");
+//get context
+var ctx = canvas.getContext("2d");
+//setup object counter
+var clicked = 0;
+//setup object storage array
+var circles = [];
+//variables for clicking to add planets
+var clickx;
+var clicky;
 
 function resizeHandler(){
 //Autoresizes the canvas when the brower window changes dimentions, this avoids "squashing" the canvas
@@ -32,7 +39,9 @@ function recursiveCirc(){
     circlemoves();
   }, 1000/30);}
 	  
+	
 function generate(){
+	//Run when the "ad too" button is clicked
     var arx = document.getElementById("arx");
 	var ary = document.getElementById("ary");
 	var volume = document.getElementById("volume");
@@ -52,7 +61,25 @@ function generate(){
 	clicked = clicked + 1;
 	}; 
 
+canvas.addEventListener(
+  "click",
+  clickevent => {
+    var clickx = clickevent.clientX;
+	var xval = parseInt(clickx.value);
+    var clicky = clickevent.clientY;
+	var yval = parseInt(clicky.value);
+	var volume = document.getElementById("volume");
+	var vol = parseInt(volume.value);
+	var den = document.getElementById("density");
+	var dens = parseInt(den.value);
+    circles.push([clickx, clicky, vol, dens]);
+	//document.getElementById("createbody").innerHTML = "add to " + clicked;
+	clicked = clicked + 1;
+  }
+)
+	
 function draw(){	
+// draws circles
     console.log("Draw");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < circles.length; i++) {
