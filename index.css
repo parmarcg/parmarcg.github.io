@@ -62,9 +62,16 @@ html {
   color:white;
 }
 
-
 #canv{
   width: 100vw; 
   height: 90vh; 
   backgroundcolor: black;
+}
+
+#volume{
+  value= "50";
+}
+
+#ang{
+   width: 1000px;
 }
