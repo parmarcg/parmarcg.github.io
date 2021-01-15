@@ -27,18 +27,29 @@
 <div id="objectcreate">
 	  <button id="createbody" onclick="generate()">CLICK</button>
 	  X Axis:
+	  <span id = "xlog"></span>
 	  <input type="range" min="0" max="100" value="1" class="slider" id="arx">
+	
       Y Axis:
+	  <span id = "ylog"></span>
 	  <input type="range" min="0" max="100" value="1" class="slider" id="ary">
+	  
 	  Volume:
+	  <span id = "volog"></span>
 	  <input type="range" min="0" max="100" class="slider" id="volume">
+	  
 	  Density:
+	  <span id = "denslog"></span>
 	  <input type="range" min="1" max="50" value="1" class="slider" id="density">
+	  
 	  Velocity:
+	  <span id = "velog"></span>
 	  <input type="range" min="1" max="50" value="1" class="slider" id="velo">
+ 	  
 	  Angle:
+	  <span id = "Anglelog"></span>
 	  <input type="range" min="0" max="360" value="1" class="slider" id="ang">
-      <span id = "Anglelog"></span>
+      
       <script>
 		var anglechooser = document.getElementById("ang");
 		var angleselect = document.getElementById("Anglelog");
@@ -46,6 +57,38 @@
 		anglechooser.oninput = function() {
 			angleselect.innerHTML = this.value;
 		}
+		var xchooser = document.getElementById("arx");
+		var xselect = document.getElementById("xlog");
+		xselect.innerHTML = xchooser.value;
+		xchooser.oninput = function() {
+			xselect.innerHTML = this.value;
+		}
+		var ychooser = document.getElementById("ary");
+		var yselect = document.getElementById("ylog");
+		yselect.innerHTML = ychooser.value;
+		ychooser.oninput = function() {
+			yselect.innerHTML = this.value;
+		}
+		var volchooser = document.getElementById("volume");
+		var volselect = document.getElementById("volog");
+		volselect.innerHTML = volchooser.value;
+		volchooser.oninput = function() {
+			volselect.innerHTML = this.value;
+		}
+		var denchooser = document.getElementById("density");
+		var denselect = document.getElementById("denslog");
+		denselect.innerHTML = denchooser.value;
+		denchooser.oninput = function() {
+			denselect.innerHTML = this.value;
+		}
+		var velchooser = document.getElementById("velo");
+		var velselect = document.getElementById("velog");
+		velselect.innerHTML = velchooser.value;
+		velchooser.oninput = function() {
+			velselect.innerHTML = this.value;
+		}
+		
+		
      </script>
 </div>
 
