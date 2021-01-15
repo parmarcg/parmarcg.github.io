@@ -1,5 +1,12 @@
 //var dpi = window.devicePixelRatio || 1;
 
+//approximate Graitational Constant (can be changed to affect how strong gravity in the simulation acts)
+const g = 0.4
+//add a softening constant to prevent infinite gravity
+const s = 1
+
+var acx = 0
+var acy = 0
 // get canvas element from HTML
 var canvas = document.getElementById("canv");
 //get context
@@ -88,10 +95,11 @@ function generate(){
 	
 	var velo = parseInt(velocity.value);
 	var ang = parseInt (angle.value);
-	
+	var mass = vol * dens
 	calculateangvel(ang, velo);
 	//send the angle to "calculate angular velocity"
-    circles.push([xval, yval, vol, dens, velx, vely])
+    circles.push([xval, yval, vol, dens, velx, vely, mass, acx, acy]);
+	//X POSITION, Y POSITION, VOLUME, DENSITY, X VELOCITY, Y VELOCITY, MASS, ACCELERATION X&Y
     //starting x value of objects, creating a 2d array entry for each object
 	document.getElementById("createbody").innerHTML = "add to " + (clicked + 1);
 	//changes the html to reflect how many objects have been created
@@ -117,10 +125,11 @@ canvas.addEventListener(
 	var velo = parseInt(velocity.value);
 	var angle = document.getElementById("ang");
 	var ang = parseInt (angle.value);
-
+	var mass = vol * dens
 	calculateangvel(ang, velo);
 	//send the angle to "calculate angular velocity"
-    circles.push([clickx, clicky, vol, dens, velx, vely]);
+    circles.push([clickx, clicky, vol, dens, velx, vely, mass, acx, acy]);
+	//X POSITION, Y POSITION, VOLUME, DENSITY, X VELOCITY, Y VELOCITY, MASS, ACCELERATION X&Y
 	document.getElementById("createbody").innerHTML = "add to " + (clicked + 1);
 	//document.getElementById("createbody").innerHTML = "add to " + clicked;
 	clicked = clicked + 1;
@@ -134,18 +143,52 @@ function draw(){
 	//displays to the console its drawing a circle
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 	//wipe clean canvas to draw the next set of circles
-    for (var i = 0; i < circles.length; i++) {
+    for (var x = 0; x < circles.length; x++) {
+	   
+	  //clear the acceleration values for every object
+	  circles[x][7] = 0;
+	  circles[x][8] = 0;
+	 
+	  
 	  // for every circle in the array circles
-      circles[i][0] += circles[i][4];
+      circles[x][0] += circles[x][4];
 	  //add the velocity per 1000/60 second to x and y values of the circle
-	  circles[i][1] += circles[i][5];
+	  circles[x][1] += circles[x][5];
       ctx.beginPath();
-      ctx.arc(circles[i][0], circles[i][1], circles[i][2], 0, 2 * Math.PI);
+      ctx.arc(circles[x][0], circles[x][1], circles[x][2], 0, 2 * Math.PI);
 	  //draw the circles onto the canvas
-      ctx.lineWidth = circles[i][3];
+      ctx.lineWidth = circles[x][3];
       ctx.strokeStyle = "ffffff";
       ctx.fill();
       ctx.stroke();
+	  
+	  //n body problem implementation  
+	  for (var y = 0; y < circles.length; y++) {
+		  //calculate for every object
+		  if (x != y){			  
+			deltax = circles[x][0] - circles[y][0];
+			deltay = circles[x][1] - circles[y][1];
+			//calculate distance to other circles along x and y planes
+			distancemagnitude = deltax * deltax + deltay * deltay;
+			//calculate overall distance
+			totalmass = circles[x][6] * circles[y][6];
+			//calculate total mass
+			f = (g * totalmass) / (distancemagnitude * Math.sqrt(distancemagnitude + s));
+			//calcuale force acting on circle
+			circles[x][7] += deltax * f;
+			circles[x][8] += deltay * f;
+			//add forces to x and y forces stored in the circles array
+			acy = deltay * f
+			//***I dont know what this does***
+			//I dont know what this does
+			//I dont know what this does
+			//I dont know what this does
+			//I dont know what this does
+ 		  }
+	  circles[x][4] -= circles[x][7];
+	  circles[x][5] -= circles[x][8];
+	  //Update velocities using new accelerations
+	  }
     } 
 };
 
