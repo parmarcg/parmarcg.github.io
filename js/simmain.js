@@ -38,7 +38,9 @@ function recursiveCirc(){
   posspacetimeloop = setInterval(function(forward){
     circlemoves();
   }, 1000/30);}
-	  
+	
+
+
 	
 function generate(){
 	//Run when the "ad too" button is clicked
@@ -54,9 +56,15 @@ function generate(){
 	var vol = parseInt(volume.value);
 	var dens = parseInt(den.value);
 	
+	var velocity = document.getElementById("velo");
+	var angle = document.getElementById("ang");
+	
+	var velo = parseInt(velocity.value);
+	var ang = parseInt (angle.value);
+	
     circles.push([xval, yval, vol, dens]);
     //starting x value of objects, creating a 2d array entry for each object
-	document.getElementById("createbody").innerHTML = "add to " + clicked;
+	document.getElementById("createbody").innerHTML = "add to " + (clicked + 1);
 	//changes the html to reflect how many objects have been created
 	clicked = clicked + 1;
 	}; 
@@ -72,7 +80,35 @@ canvas.addEventListener(
 	var vol = parseInt(volume.value);
 	var den = document.getElementById("density");
 	var dens = parseInt(den.value);
-    circles.push([clickx, clicky, vol, dens]);
+	
+	var velocity = document.getElementById("velo");
+	var velo = parseInt(velocity.value);
+	var angle = document.getElementById("ang");
+	var ang = parseInt (angle.value);
+    ang = ang * (Math.PI / 180)
+	if ( ang <= Math.PI / 2){
+      var velx = Math.sin(ang) * velo;
+	  var vely = 0 - Math.cos(ang) * velo;
+	}
+	else if (ang > Math.PI/2 && ang <= Math.PI ){
+	  var subang = ang - Math.PI / 2;
+	  var velx = Math.cos(subang) * velo;
+	  var vely = Math.sin(subang) * velo;
+	}
+	else if (ang > Math.PI && ang <= 1.5 * Math.PI ){
+		var subang = ang - Math.PI;
+		var velx = 0 - Math.sin(subang) * velo;
+		var vely = Math.cos(subang) * velo;
+	}
+	else if (ang > 1.5 * Math.PI && ang <= 2 * Math.PI){
+		var subang = ang - 1.5 * Math.PI;
+		var velx = 0 - Math.cos(subang) * velo;
+		var vely = 0- Math.sin(subang) * velo;
+	}
+	//var velx = ang
+	//var vely = ang
+    circles.push([clickx, clicky, vol, dens, velx, vely]);
+	document.getElementById("createbody").innerHTML = "add to " + (clicked + 1);
 	//document.getElementById("createbody").innerHTML = "add to " + clicked;
 	clicked = clicked + 1;
   }
@@ -83,8 +119,11 @@ function draw(){
     console.log("Draw");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < circles.length; i++) {
-      circles[i][0] += 1;
-	  circles[i][1] += 1;
+	  
+	  
+	  
+      circles[i][0] += circles[i][4];
+	  circles[i][1] += circles[i][5];
       ctx.beginPath();
       ctx.arc(circles[i][0], circles[i][1], circles[i][2], 0, 2 * Math.PI);
       ctx.lineWidth = circles[i][3];
