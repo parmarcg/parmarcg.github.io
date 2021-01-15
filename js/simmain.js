@@ -3,7 +3,7 @@
 //approximate Graitational Constant (can be changed to affect how strong gravity in the simulation acts)
 const g = 0.4
 //add a softening constant to prevent infinite gravity
-const s = 1
+const s = 10
 
 var acx = 0
 var acy = 0
