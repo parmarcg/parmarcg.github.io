@@ -34,6 +34,19 @@
 	  <input type="range" min="0" max="100" class="slider" id="volume">
 	  Density:
 	  <input type="range" min="1" max="50" value="1" class="slider" id="density">
+	  Velocity:
+	  <input type="range" min="1" max="50" value="1" class="slider" id="velo">
+	  Angle:
+	  <input type="range" min="0" max="360" value="1" class="slider" id="ang">
+      <span id = "Anglelog"></span>
+      <script>
+		var anglechooser = document.getElementById("ang");
+		var angleselect = document.getElementById("Anglelog");
+		angleselect.innerHTML = anglechooser.value;
+		anglechooser.oninput = function() {
+			angleselect.innerHTML = this.value;
+		}
+     </script>
 </div>
 
 </html>
