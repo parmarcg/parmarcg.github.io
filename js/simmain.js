@@ -3,7 +3,7 @@
 //approximate Graitational Constant (can be changed to affect how strong gravity in the simulation acts)
 const g = 0.4
 //add a softening constant to prevent infinite gravity
-const s = 10
+const s = 100000
 
 var acx = 0
 var acy = 0
@@ -156,40 +156,67 @@ function draw(){
 	  circles[x][1] += circles[x][5];
       ctx.beginPath();
       ctx.arc(circles[x][0], circles[x][1], circles[x][2], 0, 2 * Math.PI);
+	  //      x position     y position     radius         start and end angle in RADIANS
 	  //draw the circles onto the canvas
-      ctx.lineWidth = circles[x][3];
+      ctx.lineWidth = 2;
       ctx.strokeStyle = "ffffff";
       ctx.fill();
       ctx.stroke();
 	  
+	 if (circles[x][0] <  0 - circles[x][2] || circles[x][0] > circles[x][2] + canvas.width || circles[x][1] < 0 - circles[x][2] || circles[x][1] > circles[x][2] + canvas.height){
+	  circles.splice(x, 1);
+	  document.getElementById("createbody").innerHTML = "add to " + (circles.length);
+	}
+		
+	  
+	}
+	
+	
+	
+    for (var x = 0; x < circles.length; x++) {
+
 	  //n body problem implementation  
-	  for (var y = 0; y < circles.length; y++) {
-		  //calculate for every object
-		  if (x != y){			  
+		for (var y = 0; y < circles.length; y++) {
+		//calculate for every object
+		if (x != y){			  
 			deltax = circles[x][0] - circles[y][0];
 			deltay = circles[x][1] - circles[y][1];
 			//calculate distance to other circles along x and y planes
-			distancemagnitude = deltax * deltax + deltay * deltay;
+			var distancemagnitude = (deltax * deltax) + (deltay * deltay);
 			//calculate overall distance
-			totalmass = circles[x][6] * circles[y][6];
+			var totalmass = circles[x][6] * circles[y][6];
 			//calculate total mass
 			f = (g * totalmass) / (distancemagnitude * Math.sqrt(distancemagnitude + s));
 			//calcuale force acting on circle
-			circles[x][7] += deltax * f;
-			circles[x][8] += deltay * f;
+			circles[x][7] += deltax * f / circles[x][6];
+			circles[x][8] += deltay * f / circles[x][6];
 			//add forces to x and y forces stored in the circles array
-			acy = deltay * f
-			//***I dont know what this does***
-			//I dont know what this does
-			//I dont know what this does
-			//I dont know what this does
-			//I dont know what this does
- 		  }
-	  circles[x][4] -= circles[x][7];
-	  circles[x][5] -= circles[x][8];
-	  //Update velocities using new accelerations
-	  }
+			
+		  }
+	  if (Math.sqrt(distancemagnitude) <= circles[x][2] + circles[y][2] && x != y){
+		  var newposx = (circles[x][0] + circles[y][0]) / 2
+		  var newposy = (circles[x][1] + circles[y][1]) / 2
+		  var newvol = Math.sqrt(((Math.PI * circles[x][2] * circles[x][2]) + (Math.PI * circles[y][2] *circles[y][2]))/ Math.PI) 
+		  var newdens = ((circles[x][3] * circles[x][2]) + (circles[y][3] * circles[y][2])) / (circles[x][2] + circles[y][2])
+		  var newmass = (circles[x][6] + circles[y][6])
+		  var newvelx = ((circles[x][4] * circles[x][6]) + (circles[y][4] * circles[x][6]))  / newmass
+		  var newvely = ((circles[x][5] * circles[x][6]) + (circles[y][5] * circles[x][6])) / newmass
+		  
+		  
+		  
+		  circles.splice(x, 1);
+		  circles.splice(y, 1);
+		  
+		  
+		  circles.push([newposx, newposy, newvol, newdens, newvelx, newvely, newmass, 0, 0]);
+		}
+
+	 circles[x][4] -= circles[x][7];
+	 circles[x][5] -= circles[x][8];
+	 //Update velocities using new accelerations
+	 }
     } 
+
 };
 
 window.setInterval(function(){ draw(); }, 1000/60);
