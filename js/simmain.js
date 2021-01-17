@@ -222,6 +222,7 @@ function draw(){
 	 if (circles[x][0] <  0 - circles[x][2] || circles[x][0] > circles[x][2] + canvas.width || circles[x][1] < 0 - circles[x][2] || circles[x][1] > circles[x][2] + canvas.height){
 	  circles.splice(x, 1);
 	  document.getElementById("createbody").innerHTML = "add to " + (circles.length);
+	  clicked = circles.length
 	};
 		
 	  
