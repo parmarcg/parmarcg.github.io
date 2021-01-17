@@ -9,9 +9,10 @@ html {
 
 .main-menu{
   background-color:white;
-  font-family: Arial, Helvetica, "sans-serif";
+  font-family: "Poor Richard", "Courier", Arial, Helvetica, "sans-serif";
   font-size: 18px;
   text-align: center
+  
 }
 
 .mainbutton {
@@ -20,6 +21,7 @@ html {
   padding: 16px 32px;
   text-align: center;
   text-decoration: none;
+  font-family: "Poor Richard", "Courier", Arial, Helvetica, "sans-serif";
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
@@ -73,5 +75,8 @@ html {
 }
 
 #ang{
-   width: 1000px;
+   width: 500px;
+}
+#velo{
+ value= "0";
 }
