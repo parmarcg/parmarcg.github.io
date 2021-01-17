@@ -1,7 +1,7 @@
 //var dpi = window.devicePixelRatio || 1;
 var canvasclicked = 0;
 //approximate Graitational Constant (can be changed to affect how strong gravity in the simulation acts)
-const g = 400;
+const g = 40;
 //add a softening constant to prevent infinite gravity
 const s = 0.0000001;
 var acx = 0;
