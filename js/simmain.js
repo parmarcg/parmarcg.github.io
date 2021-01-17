@@ -121,12 +121,13 @@ function whilemousedown(e){
 	var newcircleradius = Math.sqrt(
     (posx.value - clickx) * 
     (posx.value - clickx) + 
+    (posy.value - clicky) *
     (posy.value - clicky)
-    (posy.value - clicky));
+     );
 	
 	
 	ctx.beginPath();
-    ctx.arc(clickx, clicky, 50, 0, 2 * Math.PI);
+    ctx.arc(clickx, clicky, newcircleradius, 0, 2 * Math.PI);
 	//      x position     y position     radius         start and end angle in RADIANS
     //draw the circles onto the canvas
     ctx.lineWidth = 2;
@@ -148,7 +149,7 @@ canvas.onmousedown = function(e){
     clickx = e.clientX;
 	clicky = e.clientY;
 	if(mousedownID==-1){//Prevent multimple loops!
-     mousedownID = setInterval(whilemousedown, e, 100/60 );
+     mousedownID = setInterval(whilemousedown(e), 100/60 );
 	};
 	
 
