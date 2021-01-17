@@ -1,12 +1,11 @@
 //var dpi = window.devicePixelRatio || 1;
-
+var canvasclicked = 0;
 //approximate Graitational Constant (can be changed to affect how strong gravity in the simulation acts)
-const g = 0.4
+const g = 400;
 //add a softening constant to prevent infinite gravity
-const s = 100000
-
-var acx = 0
-var acy = 0
+const s = 0.0000001;
+var acx = 0;
+var acy = 0;
 // get canvas element from HTML
 var canvas = document.getElementById("canv");
 //get context
@@ -18,6 +17,13 @@ var circles = [];
 //variables for clicking to add planets
 var clickx;
 var clicky;
+
+var mousedownID = -1;  
+//Global ID of mouse down interval
+
+var posx
+var posy
+
 
 function resizeHandler(){
 //Autoresizes the canvas when the brower window changes dimentions, this avoids "squashing" the canvas
@@ -107,14 +113,53 @@ function generate(){
 	//step up to reflect the amount of circles onscreen
 	}; 
 
-canvas.addEventListener(
-  "click",
-  //when the user clicks the canvas, start drawing a circle
-  clickevent => {
-    var clickx = clickevent.clientX;
-	//get x value and y value of the mouseclick
+function whilemousedown(e){
+	console.log("mousedown")
+    var posx = e.clientX;
+    var posy = e.clientY;
+	
+	var newcircleradius = Math.sqrt(
+    (posx.value - clickx) * 
+    (posx.value - clickx) + 
+    (posy.value - clicky)
+    (posy.value - clicky));
+	
+	
+	ctx.beginPath();
+    ctx.arc(clickx, clicky, 50, 0, 2 * Math.PI);
+	//      x position     y position     radius         start and end angle in RADIANS
+    //draw the circles onto the canvas
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "ffffff";
+    ctx.fill();
+	ctx.stroke();
+}
+	
+canvas.onmouseup = function (e){
+   if(mousedownID!=-1) {  //Only stop if exists
+     clearInterval(mousedownID);
+     mousedownID=-1;
+   }
+}	
+
+canvas.onmousedown = function(e){
+  if (canvasclicked == 0){
+	//when the user clicks the canvas, start drawing a circle
+    clickx = e.clientX;
+	clicky = e.clientY;
+	if(mousedownID==-1){//Prevent multimple loops!
+     mousedownID = setInterval(whilemousedown, e, 100/60 );
+	};
+	
+
+	canvasclicked = 1;
+	
+  }
+  else if(canvasclicked = 1){
+	canvasclicked = 0;  
+  	//get x value and y value of the mouseclick
 	var xval = parseInt(clickx.value);
-    var clicky = clickevent.clientY;
+    
 	var yval = parseInt(clicky.value);
 	var volume = document.getElementById("volume");
     // Read values from HTML
@@ -134,8 +179,8 @@ canvas.addEventListener(
 	//document.getElementById("createbody").innerHTML = "add to " + clicked;
 	clicked = clicked + 1;
 	//step up to reflect the amount of circles onscreen
-  }
-)
+  };
+};
 	
 function draw(){	
 // draws circles
@@ -166,13 +211,13 @@ function draw(){
 	 if (circles[x][0] <  0 - circles[x][2] || circles[x][0] > circles[x][2] + canvas.width || circles[x][1] < 0 - circles[x][2] || circles[x][1] > circles[x][2] + canvas.height){
 	  circles.splice(x, 1);
 	  document.getElementById("createbody").innerHTML = "add to " + (circles.length);
-	}
+	};
 		
 	  
-	}
+	};
+};
 	
-	
-	
+function updatespacetime(){
     for (var x = 0; x < circles.length; x++) {
 
 	  //n body problem implementation  
@@ -184,23 +229,61 @@ function draw(){
 			//calculate distance to other circles along x and y planes
 			var distancemagnitude = (deltax * deltax) + (deltay * deltay);
 			//calculate overall distance
-			var totalmass = circles[x][6] * circles[y][6];
+			
+			var massone = circles[x][6];
+			var masstwo = circles[y][6];
+			
+			var totalmass = massone + masstwo;
 			//calculate total mass
 			f = (g * totalmass) / (distancemagnitude * Math.sqrt(distancemagnitude + s));
 			//calcuale force acting on circle
 			circles[x][7] += deltax * f / circles[x][6];
 			circles[x][8] += deltay * f / circles[x][6];
+            
+            circles[y][7] += deltax * f / circles[y][6];
+			circles[y][8] += deltay * f / circles[y][6];
 			//add forces to x and y forces stored in the circles array
 			
 		  }
-	  if (Math.sqrt(distancemagnitude) <= circles[x][2] + circles[y][2] && x != y){
+		  circles[x][4] -= circles[x][7];
+	      circles[x][5] -= circles[x][8];
+		  circles[y][4] += circles[y][7];
+		  circles[y][5] += circles[y][8];
+
+
+			
+	      //Update velocities using new accelerations
+		}
+	}
+	for (var x = 0; x < circles.length; x++) {
+
+	  
+	  for (var y = 0; y < circles.length; y++) {
+		
+
+
+	    if (Math.sqrt(distancemagnitude) < circles[x][2] + circles[y][2] && x != y){
+		  
+		  deltax = circles[x][0] - circles[y][0];
+		  deltay = circles[x][1] - circles[y][1];
+		  var distancemagnitude = Math.sqrt(
+			(deltax * deltax) + (deltay * deltay)
+		  );
+
+
 		  var newposx = (circles[x][0] + circles[y][0]) / 2
+		  
 		  var newposy = (circles[x][1] + circles[y][1]) / 2
-		  var newvol = Math.sqrt(((Math.PI * circles[x][2] * circles[x][2]) + (Math.PI * circles[y][2] *circles[y][2]))/ Math.PI) 
+		  
+		  var newvol = Math.sqrt(((Math.PI * circles[x][2] * circles[x][2]) + (Math.PI * circles[y][2] *circles[y][2])) / Math.PI) 
+		  
 		  var newdens = ((circles[x][3] * circles[x][2]) + (circles[y][3] * circles[y][2])) / (circles[x][2] + circles[y][2])
+		  
 		  var newmass = (circles[x][6] + circles[y][6])
-		  var newvelx = ((circles[x][4] * circles[x][6]) + (circles[y][4] * circles[x][6]))  / newmass
-		  var newvely = ((circles[x][5] * circles[x][6]) + (circles[y][5] * circles[x][6])) / newmass
+		  
+		  var newvelx = ((circles[x][4] * circles[x][6]) + (circles[y][4] * circles[y][6]))  / newmass
+		  
+		  var newvely = ((circles[x][5] * circles[x][6]) + (circles[y][5] * circles[y][6]))  / newmass
 		  
 		  
 		  
@@ -209,17 +292,18 @@ function draw(){
 		  
 		  
 		  circles.push([newposx, newposy, newvol, newdens, newvelx, newvely, newmass, 0, 0]);
-		}
+		  //x = x - 1;
+		  //y = y - 1;
+		};
 
-	 circles[x][4] -= circles[x][7];
-	 circles[x][5] -= circles[x][8];
-	 //Update velocities using new accelerations
-	 }
-    } 
+
+	 };
+    };
 
 };
 
-window.setInterval(function(){ draw(); }, 1000/60);
+window.setInterval(function(){ draw(); updatespacetime();}, 1000/60);
+
 //Draw is always running
 
 
