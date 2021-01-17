@@ -21,9 +21,9 @@ var clicky;
 var mousedownID = -1;  
 //Global ID of mouse down interval
 
-var posx
-var posy
-
+var posx;
+var newcircleradius;
+var posy;
 
 function resizeHandler(){
 //Autoresizes the canvas when the brower window changes dimentions, this avoids "squashing" the canvas
@@ -115,18 +115,20 @@ function generate(){
 
 function whilemousedown(e){
 	console.log("mousedown")
-    var posx = e.clientX;
-    var posy = e.clientY;
+
 	
-	var newcircleradius = Math.sqrt(
-    (posx.value - clickx) * 
-    (posx.value - clickx) + 
-    (posy.value - clicky) *
-    (posy.value - clicky)
+	newcircleradius = Math.sqrt(
+    (posx - clickx) * 
+    (posx - clickx) + 
+    (posy - clicky) *
+    (posy - clicky)
      );
+	if (newcircleradius < 1){
+	  newcircleradius = 10 ; 
+};
 	
-	
-	ctx.beginPath();
+	/*
+    ctx.beginPath();
     ctx.arc(clickx, clicky, newcircleradius, 0, 2 * Math.PI);
 	//      x position     y position     radius         start and end angle in RADIANS
     //draw the circles onto the canvas
@@ -134,29 +136,35 @@ function whilemousedown(e){
     ctx.strokeStyle = "ffffff";
     ctx.fill();
 	ctx.stroke();
-}
+    */
+};
 	
+/*
 canvas.onmouseup = function (e){
    if(mousedownID!=-1) {  //Only stop if exists
      clearInterval(mousedownID);
-     mousedownID=-1;
+     mousedownID = 0 - 1;
    }
 }	
-
+*/
 canvas.onmousedown = function(e){
   if (canvasclicked == 0){
 	//when the user clicks the canvas, start drawing a circle
     clickx = e.clientX;
 	clicky = e.clientY;
-	if(mousedownID==-1){//Prevent multimple loops!
-     mousedownID = setInterval(whilemousedown(e), 100/60 );
-	};
+	//if(mousedownID==-1){//Prevent multimple loops!
+	//};
 	
 
 	canvasclicked = 1;
 	
-  }
-  else if(canvasclicked = 1){
+  };
+};
+canvas.onmouseup = function(e){
+  posx = e.clientX;
+  posy = e.clientY;
+  if(canvasclicked = 1){
+    whilemousedown(e)
 	canvasclicked = 0;  
   	//get x value and y value of the mouseclick
 	var xval = parseInt(clickx.value);
@@ -164,8 +172,10 @@ canvas.onmousedown = function(e){
 	var yval = parseInt(clicky.value);
 	var volume = document.getElementById("volume");
     // Read values from HTML
-	var vol = parseInt(volume.value);
-	var den = document.getElementById("density");
+	//var vol = parseInt(volume.value);
+	var vol = newcircleradius
+
+    var den = document.getElementById("density");
 	var dens = parseInt(den.value);
 	var velocity = document.getElementById("velo");
 	var velo = parseInt(velocity.value);
