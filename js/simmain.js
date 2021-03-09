@@ -285,7 +285,7 @@ function updatespacetime(){
 		  if (circles[x][3] >= circles[y][3]){
 		  	var newposx = circles[x][0];
 			var newposy = circles[x][1];
-		  };
+		  }
 		  else{
 			var newposy = cirlces[y][0];
 			var newposy = circles[y][1];
