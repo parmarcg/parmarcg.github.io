@@ -282,10 +282,16 @@ function updatespacetime(){
 			(deltax * deltax) + (deltay * deltay)
 		  );
 
+		  if (circles[x][3] >= circles[y][3]){
+		  	var newposx = circles[x][0];
+			var newposy = circles[x][1];
+		  };
+		  else{
+			var newposy = cirlces[y][0];
+			var newposy = circles[y][1];
+		  };
+		    
 
-		  var newposx = (circles[x][0] + circles[y][0]) / 2
-		  
-		  var newposy = (circles[x][1] + circles[y][1]) / 2
 		  
 		  var newvol = Math.sqrt(((Math.PI * circles[x][2] * circles[x][2]) + (Math.PI * circles[y][2] *circles[y][2])) / Math.PI) 
 		  
