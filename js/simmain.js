@@ -24,6 +24,10 @@ var mousedownID = -1;
 var posx;
 var newcircleradius;
 var posy;
+var mousex;
+var mousey;
+
+
 
 function resizeHandler(){
 //Autoresizes the canvas when the brower window changes dimentions, this avoids "squashing" the canvas
@@ -193,12 +197,20 @@ canvas.onmouseup = function(e){
   };
 };
 	
+canvas.onmousemove = function(e){
+	mousex = e.clientX;
+	mousey = e.clientY;
+};
+	
+	
 function draw(){	
 // draws circles
     /*onsole.log("Draw");*/
 	//displays to the console its drawing a circle
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 	//wipe clean canvas to draw the next set of circles
+
+	
     for (var x = 0; x < circles.length; x++) {
 	   
 	  //clear the acceleration values for every object
@@ -276,21 +288,22 @@ function updatespacetime(){
 
 	    if (Math.sqrt(distancemagnitude) < circles[x][2] + circles[y][2] && x != y){
 		  
+		  
 		  deltax = circles[x][0] - circles[y][0];
 		  deltay = circles[x][1] - circles[y][1];
 		  var distancemagnitude = Math.sqrt(
 			(deltax * deltax) + (deltay * deltay)
 		  );
-
 		  if (circles[x][3] >= circles[y][3]){
 		  	var newposx = circles[x][0];
 			var newposy = circles[x][1];
 		  }
 		  else{
-			var newposy = cirlces[y][0];
+			var newposy = circles[y][0];
 			var newposy = circles[y][1];
 		  };
 		    
+
 
 		  
 		  var newvol = Math.sqrt(((Math.PI * circles[x][2] * circles[x][2]) + (Math.PI * circles[y][2] *circles[y][2])) / Math.PI) 
@@ -320,7 +333,26 @@ function updatespacetime(){
 
 };
 
-window.setInterval(function(){ draw(); updatespacetime();}, 1000/60);
+function circledrawing(){
+
+	var deltax = clickx - mousex;
+	var deltay = clicky - mousey;
+	
+	var circleradius = Math.sqrt((deltax * deltax) + (deltay * deltay))
+	//console.log(canvasclicked)
+	if (canvasclicked == 1){
+		var e = window.event;
+	    console.log(deltax, deltay, circleradius)
+
+		ctx.fillStyle = '#FF0000'	
+		ctx.beginPath();
+		ctx.arc(clickx, clicky, circleradius, 0, 2 * Math.PI, false);
+		ctx.fill();
+	};
+	
+};
+
+window.setInterval(function(){ draw(); updatespacetime(); circledrawing();}, 1000/60);
 
 //Draw is always running
 
