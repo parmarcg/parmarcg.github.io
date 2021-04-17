@@ -1,0 +1,34 @@
+instructions.txt
+
+The COrbit gravity simulator is designed to provide a realistic simulation of gravity.
+To use the simulation, just click the "new sim" button on the index page.
+You should be greeted with an already setup orbit for you to view.
+To start your own simulation, just click the "clear" button at the bottom, to the right of the "exit button".
+
+Mouse control of the simulation allows users to add objects to the simulation with their mouse. 
+To do this, simply click and hold where you want your object to be centred, and drag outwards. 
+You should see a grey circle appear, and grow and shrink along with your mouse movements. 
+This can be used to guage how big the object you are about to add to the simulation will be.
+To add the object to the simulation, now all you need to do is release the mouse, and the object will be created.
+Don't forget to fiddle with the controls to experement with adding velocity to your created objects.
+     
+
+The simulation controls are as follows;
+   1)The "add to" button serves two purposes, the first is to add a new object to the simulation, and the second is 
+       to keep track of the amount of objects on screen.
+   2)The X Axis slider is used to position the new object on screen, the value to the left of the slider
+       describes as a percentage of the total screen width where the new object will be created.
+   3)The Y axis slider is used to position the new object on screen, the value to the left of the slider 
+       describes as a percentage of the total screen height where the new object will be created.
+   4)The Volume slider is used to select how big the new object will appear on screen, the value to 
+       the left of the slider displays in pixel size the radius of the object created.
+   5)The Density slider is used in both mouse and slider control. It controls in arbitrary units the density of the object
+       created, and can be used to create heavy large masses in the simulation.
+   6)The velocity slider is used in both mouse and slider control to give newly created objects velocity as soon as they
+       are created. Its value is in pixels per frame, and will be tied to the frame rate of the simulation as it runs
+       on your machine.
+   7)The angle slider is used to give a direction to the velocity given to newly created objects. It is in degrees, meaning
+       90 on the slider will propell the object right, 180 straight down, and 270 left.
+   8)The Exit button is used to exit the simulation and return to the index.html homepage of the COrbit website.
+   9)The Clear button is used to clear the simulation of all objects and return it so a neutral state.
+   
