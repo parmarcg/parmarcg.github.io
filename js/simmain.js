@@ -3,7 +3,7 @@ var canvasclicked = 0;
 //approximate Graitational Constant (can be changed to affect how strong gravity in the simulation acts)
 const g = 400;
 //add a softening constant to prevent infinite gravity
-const s = 0.0000001;
+const s = 1;
 var acx = 0;
 var acy = 0;
 // get canvas element from HTML
@@ -12,9 +12,9 @@ var canvas = document.getElementById("canv");
 var ctx = canvas.getContext("2d");
 //setup object counter
 var clicked = 0;
+
+
 //setup object storage array
-
-
 var circles = [];
 circles.push([500, 500, 100, 50, 0, 0, 5000, 0, 0]);
 circles.push([100, 500, 20, 1, 0, 19, 10, 0, 0]);
