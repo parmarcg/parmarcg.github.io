@@ -13,7 +13,16 @@ var ctx = canvas.getContext("2d");
 //setup object counter
 var clicked = 0;
 //setup object storage array
+
+
 var circles = [];
+circles.push([500, 500, 100, 50, 0, 0, 5000, 0, 0]);
+circles.push([100, 500, 20, 1, 0, 19, 10, 0, 0]);
+
+
+//X POSITION, Y POSITION, VOLUME, DENSITY, X VELOCITY, Y VELOCITY, MASS, ACCELERATION X&Y
+//sets up initial orbiting objects
+
 //variables for clicking to add planets
 var clickx;
 var clicky;
