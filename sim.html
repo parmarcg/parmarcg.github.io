@@ -5,7 +5,7 @@
 		<title>COrbit Simulation</title>
 		<link rel="stylesheet" href="index.css">
 		<link rel="icon" href="favicon.png" type="image/png">	
-		<!-- Title information --> 
+
 		
 
 	</head>
@@ -18,19 +18,13 @@
 		</div>
 		<div class="errormsg"> 
 			Unfortunately your browser does not support this HTML5/Javascript simulation.
-		<!-- Message displayed if brower is incapable of HTML5 canvas-->
 		</div>
 		
 	</canvas>
 	
 	</body>
-<script src="js/simmain.js">
-	
-	</script>
-	<!--calls simmain.js as script-->
-	
+<script src="js/simmain.js"></script>
 <div id="objectcreate">
-	  <!--Interactivity sliders-->
 	  <button id="createbody" onclick="generate()">CLICK</button>
 	  X Axis:
 	  <span id = "xlog"></span>
@@ -56,9 +50,11 @@
 	  <span id = "Anglelog"></span>
 	  <input type="range" min="0" max="360" value="1" class="slider" id="ang">
       
-	  <button class="exitbutton" id="exitbutton" onclick="document.location ='index.html'" >Exit</button><br>
-	  <!--Script to display updated values next to sliders when they are moved-->
-          <script>
+	  <button class="exitbutton" id="exitbutton" onclick="document.location ='index.html'" >Exit</button>
+	  
+	  <button class="exitbutton" id="clear" onclick="clearsim()">Clear</button><br>
+		
+      <script>
 		var anglechooser = document.getElementById("ang");
 		var angleselect = document.getElementById("Anglelog");
 		angleselect.innerHTML = anglechooser.value;
