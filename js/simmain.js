@@ -1,7 +1,7 @@
 //var dpi = window.devicePixelRatio || 1;
 var canvasclicked = 0;
 //approximate Graitational Constant (can be changed to affect how strong gravity in the simulation acts)
-const g = 40;
+const g = 400;
 //add a softening constant to prevent infinite gravity
 const s = 0.0000001;
 var acx = 0;
@@ -118,7 +118,7 @@ function generate(){
 	}; 
 
 function whilemousedown(e){
-	console.log("mousedown")
+	//console.log("mousedown")
 
 	
 	newcircleradius = Math.sqrt(
@@ -165,8 +165,10 @@ canvas.onmousedown = function(e){
   };
 };
 canvas.onmouseup = function(e){
+ // when the user lets go of mouse:
   posx = e.clientX;
   posy = e.clientY;
+//note the position of the mouse
   if(canvasclicked = 1){
     whilemousedown(e)
 	canvasclicked = 0;  
@@ -200,9 +202,20 @@ canvas.onmouseup = function(e){
 canvas.onmousemove = function(e){
 	mousex = e.clientX;
 	mousey = e.clientY;
+//refresh mousex and mousey every time the mouse changes position
+//this is used to update the drawing of the grey circle
 };
 	
 	
+function clearsim(){
+//function to clear the sim of all cirlces
+	circles = [];
+	clicked = 0;
+//update variables to show no objects
+	document.getElementById("createbody").innerHTML = "add to " + (clicked);
+//update GUI
+};
+
 function draw(){	
 // draws circles
     /*onsole.log("Draw");*/
@@ -227,19 +240,22 @@ function draw(){
 	  //      x position     y position     radius         start and end angle in RADIANS
 	  //draw the circles onto the canvas
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "ffffff";
+      ctx.strokeStyle = "ffffff"; //black
       ctx.fill();
       ctx.stroke();
 	  
 	 if (circles[x][0] <  0 - circles[x][2] || circles[x][0] > circles[x][2] + canvas.width || circles[x][1] < 0 - circles[x][2] || circles[x][1] > circles[x][2] + canvas.height){
 	  circles.splice(x, 1);
+	// if circles exceed canvas boundaries, delete them
 	  document.getElementById("createbody").innerHTML = "add to " + (circles.length);
 	  clicked = circles.length
+
 	};
 		
 	  
 	};
 };
+
 	
 function updatespacetime(){
     for (var x = 0; x < circles.length; x++) {
@@ -287,7 +303,7 @@ function updatespacetime(){
 
 
 	    if (Math.sqrt(distancemagnitude) < circles[x][2] + circles[y][2] && x != y){
-		  
+		  //if circles inside each other
 		  
 		  deltax = circles[x][0] - circles[y][0];
 		  deltay = circles[x][1] - circles[y][1];
@@ -302,7 +318,7 @@ function updatespacetime(){
 			var newposy = circles[y][0];
 			var newposy = circles[y][1];
 		  };
-		    
+		    //calculate new properties after collision
 
 
 		  
@@ -320,8 +336,10 @@ function updatespacetime(){
 		  
 		  circles.splice(x, 1);
 		  circles.splice(y, 1);
-		  
-		  
+		  //delete both objects
+
+
+
 		  circles.push([newposx, newposy, newvol, newdens, newvelx, newvely, newmass, 0, 0]);
 		  //x = x - 1;
 		  //y = y - 1;
@@ -330,21 +348,25 @@ function updatespacetime(){
 
 	 };
     };
-
+		  clicked = circles.length;
+		  document.getElementById("createbody").innerHTML = "add to " + (clicked);
+		  console.log(circles.length);
+			//update GUI and vaariables to reflect new amount of objects
 };
 
 function circledrawing(){
-
+	//function to show grey circle while the user create
 	var deltax = clickx - mousex;
 	var deltay = clicky - mousey;
 	
 	var circleradius = Math.sqrt((deltax * deltax) + (deltay * deltay))
 	//console.log(canvasclicked)
 	if (canvasclicked == 1){
+        //console.log("mousclicked")
 		var e = window.event;
-	    console.log(deltax, deltay, circleradius)
+	    //console.log(deltax, deltay, circleradius)
 
-		ctx.fillStyle = '#FF0000'	
+		ctx.fillStyle = '#AAA'	
 		ctx.beginPath();
 		ctx.arc(clickx, clicky, circleradius, 0, 2 * Math.PI, false);
 		ctx.fill();
@@ -352,9 +374,9 @@ function circledrawing(){
 	
 };
 
-window.setInterval(function(){ draw(); updatespacetime(); circledrawing();}, 1000/60);
+window.setInterval(function(){ circledrawing(); updatespacetime(); draw(); circledrawing();}, 1000/60);
 
-//Draw is always running
+//these functions are always running
 
 
 
