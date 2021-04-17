@@ -94,13 +94,17 @@ function calculateangvel(ang, velo){
 
 	
 function generate(){
-	//Runs when the "ad too" button is clicked
+	//Runs when the "ad too" button is clicked, or when the canvas itself is clicked
     var arx = document.getElementById("arx");
+	//position x
 	var ary = document.getElementById("ary");
+	//position y
+	
 	var volume = document.getElementById("volume");
 	var den = document.getElementById("density");
 	// Read values from HTML
-    xval = arx.value  /  100;
+    
+	xval = arx.value  /  100;
     yval = ary.value  /  100;
     //create a percentage
 	var xval = (xval * canvas.width);
@@ -268,7 +272,9 @@ function draw(){
 	
 function updatespacetime(){
     for (var x = 0; x < circles.length; x++) {
-
+		
+	 
+	
 	  //n body problem implementation  
 		for (var y = 0; y < circles.length; y++) {
 		//calculate for every object
@@ -305,56 +311,62 @@ function updatespacetime(){
 		}
 	}
 	for (var x = 0; x < circles.length; x++) {
-
+		if (circles[x][0] > 0 && circles[x][0] < canvas.width){
+		 //verifys the circle is within bounds
 	  
-	  for (var y = 0; y < circles.length; y++) {
+			for (var y = 0; y < circles.length; y++) {
 		
 
 
-	    if (Math.sqrt(distancemagnitude) < circles[x][2] + circles[y][2] && x != y){
-		  //if circles inside each other
+				if (Math.sqrt(distancemagnitude) < circles[x][2] + circles[y][2] && x != y){
+					//if circles inside each other
 		  
-		  deltax = circles[x][0] - circles[y][0];
-		  deltay = circles[x][1] - circles[y][1];
-		  var distancemagnitude = Math.sqrt(
-			(deltax * deltax) + (deltay * deltay)
-		  );
-		  if (circles[x][3] >= circles[y][3]){
-		  	var newposx = circles[x][0];
-			var newposy = circles[x][1];
-		  }
-		  else{
-			var newposy = circles[y][0];
-			var newposy = circles[y][1];
-		  };
-		    //calculate new properties after collision
+					deltax = circles[x][0] - circles[y][0];
+					deltay = circles[x][1] - circles[y][1];
+					var distancemagnitude = Math.sqrt(
+					(deltax * deltax) + (deltay * deltay)
+				);
+				if (circles[x][3] >= circles[y][3]){
+					var newposx = circles[x][0];
+					var newposy = circles[x][1];
+				}
+				else{
+					var newposy = circles[y][0];
+					var newposy = circles[y][1];
+				};
+					//calculate new properties after collision
 
 
 		  
-		  var newvol = Math.sqrt(((Math.PI * circles[x][2] * circles[x][2]) + (Math.PI * circles[y][2] *circles[y][2])) / Math.PI) 
+				var newvol = Math.sqrt(((Math.PI * circles[x][2] * circles[x][2]) + (Math.PI * circles[y][2] *circles[y][2])) / Math.PI) 
 		  
-		  var newdens = ((circles[x][3] * circles[x][2]) + (circles[y][3] * circles[y][2])) / (circles[x][2] + circles[y][2])
+				var newdens = ((circles[x][3] * circles[x][2]) + (circles[y][3] * circles[y][2])) / (circles[x][2] + circles[y][2])
+			
+				var newmass = (circles[x][6] + circles[y][6])
+			
+				var newvelx = ((circles[x][4] * circles[x][6]) + (circles[y][4] * circles[y][6]))  / newmass
+			
+				var newvely = ((circles[x][5] * circles[x][6]) + (circles[y][5] * circles[y][6]))  / newmass
 		  
-		  var newmass = (circles[x][6] + circles[y][6])
-		  
-		  var newvelx = ((circles[x][4] * circles[x][6]) + (circles[y][4] * circles[y][6]))  / newmass
-		  
-		  var newvely = ((circles[x][5] * circles[x][6]) + (circles[y][5] * circles[y][6]))  / newmass
 		  
 		  
-		  
-		  circles.splice(x, 1);
-		  circles.splice(y, 1);
-		  //delete both objects
+				circles.splice(x, 1);
+				circles.splice(y, 1);
+				//delete both objects
 
 
 
-		  circles.push([newposx, newposy, newvol, newdens, newvelx, newvely, newmass, 0, 0]);
-		  //x = x - 1;
-		  //y = y - 1;
-		};
+				circles.push([newposx, newposy, newvol, newdens, newvelx, newvely, newmass, 0, 0]);
+				//x = x - 1;
+				//y = y - 1;
+				};
 
-
+			};
+		}
+		else{
+			circles.splice(x, 1);
+			//if circle not in bounds, delete
+		 
 	 };
     };
 		  clicked = circles.length;
