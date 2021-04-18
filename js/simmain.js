@@ -311,7 +311,7 @@ function updatespacetime(){
 		}
 	}
 	for (var x = 0; x < circles.length; x++) {
-		if (circles[x][0] > 0 && circles[x][0] < canvas.width){
+		if (circles[x][0] > 0 && circles[x][0] < (2 * canvas.width)){
 		 //verifys the circle is within bounds
 	  
 			for (var y = 0; y < circles.length; y++) {
