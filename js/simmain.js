@@ -443,12 +443,11 @@ function circ(){
 */
 
 
-function initializesim(canvas){
-
+//function initializesim(canvas){
   //spin();
   //moveCirc();
 
-}
+//}
 canvashandler.initialize(canvas);
 canvashandler.autoResize();
 //run canvas resizer
